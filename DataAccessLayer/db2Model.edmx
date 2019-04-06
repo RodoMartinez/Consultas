@@ -1,0 +1,356 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DB2LocalSQLModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="DEPARTMENT">
+          <Key>
+            <PropertyRef Name="DEPTNO" />
+          </Key>
+          <Property Name="DEPTNO" Type="char" MaxLength="3" Nullable="false" />
+          <Property Name="DEPTNAME" Type="varchar" MaxLength="29" Nullable="false" />
+          <Property Name="MGRNO" Type="char" MaxLength="6" />
+          <Property Name="ADMRDEPT" Type="char" MaxLength="3" Nullable="false" />
+          <Property Name="LOCATION" Type="char" MaxLength="16" />
+        </EntityType>
+        <EntityType Name="EMP_ACT">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="EMPNO" Type="char" MaxLength="6" Nullable="false" />
+          <Property Name="PROJNO" Type="char" MaxLength="6" Nullable="false" />
+          <Property Name="ACTNO" Type="smallint" Nullable="false" />
+          <Property Name="EMPTIME" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="EMSTDATE" Type="date" />
+          <Property Name="EMENDATE" Type="date" />
+        </EntityType>
+        <EntityType Name="EMPLOYEE">
+          <Key>
+            <PropertyRef Name="EMPNO" />
+          </Key>
+          <Property Name="EMPNO" Type="char" MaxLength="6" Nullable="false" />
+          <Property Name="FIRSTNME" Type="varchar" MaxLength="12" Nullable="false" />
+          <Property Name="MIDINIT" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="LASTNAME" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="WORKDEPT" Type="char" MaxLength="3" />
+          <Property Name="PHONENO" Type="char" MaxLength="4" />
+          <Property Name="HIREDATE" Type="date" />
+          <Property Name="JOB" Type="char" MaxLength="8" />
+          <Property Name="EDLEVEL" Type="smallint" Nullable="false" />
+          <Property Name="SEX" Type="char" MaxLength="1" />
+          <Property Name="BIRTHDATE" Type="date" />
+          <Property Name="SALARY" Type="decimal" Precision="9" Scale="2" />
+          <Property Name="BONUS" Type="decimal" Precision="9" Scale="2" />
+          <Property Name="COMM" Type="decimal" Precision="9" Scale="2" />
+        </EntityType>
+        <EntityType Name="PROJECT">
+          <Key>
+            <PropertyRef Name="PROJNO" />
+          </Key>
+          <Property Name="PROJNO" Type="char" MaxLength="6" Nullable="false" />
+          <Property Name="PROJNAME" Type="varchar" MaxLength="24" Nullable="false" />
+          <Property Name="DEPTNO" Type="char" MaxLength="3" Nullable="false" />
+          <Property Name="RESPEMP" Type="char" MaxLength="6" Nullable="false" />
+          <Property Name="PRSTAFF" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="PRSTDATE" Type="date" />
+          <Property Name="PRENDATE" Type="date" />
+          <Property Name="MAJPROJ" Type="char" MaxLength="6" />
+        </EntityType>
+        <Association Name="FK__EMP_ACT__EMPNO__3F466844">
+          <End Role="EMPLOYEE" Type="Self.EMPLOYEE" Multiplicity="1" />
+          <End Role="EMP_ACT" Type="Self.EMP_ACT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EMPLOYEE">
+              <PropertyRef Name="EMPNO" />
+            </Principal>
+            <Dependent Role="EMP_ACT">
+              <PropertyRef Name="EMPNO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__EMP_ACT__PROJNO__403A8C7D">
+          <End Role="PROJECT" Type="Self.PROJECT" Multiplicity="1" />
+          <End Role="EMP_ACT" Type="Self.EMP_ACT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PROJECT">
+              <PropertyRef Name="PROJNO" />
+            </Principal>
+            <Dependent Role="EMP_ACT">
+              <PropertyRef Name="PROJNO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__EMPLOYEE__WORKDE__3D5E1FD2">
+          <End Role="DEPARTMENT" Type="Self.DEPARTMENT" Multiplicity="0..1" />
+          <End Role="EMPLOYEE" Type="Self.EMPLOYEE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DEPARTMENT">
+              <PropertyRef Name="DEPTNO" />
+            </Principal>
+            <Dependent Role="EMPLOYEE">
+              <PropertyRef Name="WORKDEPT" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PROJECT__DEPTNO__3E52440B">
+          <End Role="DEPARTMENT" Type="Self.DEPARTMENT" Multiplicity="1" />
+          <End Role="PROJECT" Type="Self.PROJECT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DEPARTMENT">
+              <PropertyRef Name="DEPTNO" />
+            </Principal>
+            <Dependent Role="PROJECT">
+              <PropertyRef Name="DEPTNO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DB2LocalSQLModelStoreContainer">
+          <EntitySet Name="DEPARTMENT" EntityType="Self.DEPARTMENT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EMP_ACT" EntityType="Self.EMP_ACT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EMPLOYEE" EntityType="Self.EMPLOYEE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PROJECT" EntityType="Self.PROJECT" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__EMP_ACT__EMPNO__3F466844" Association="Self.FK__EMP_ACT__EMPNO__3F466844">
+            <End Role="EMPLOYEE" EntitySet="EMPLOYEE" />
+            <End Role="EMP_ACT" EntitySet="EMP_ACT" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EMP_ACT__PROJNO__403A8C7D" Association="Self.FK__EMP_ACT__PROJNO__403A8C7D">
+            <End Role="PROJECT" EntitySet="PROJECT" />
+            <End Role="EMP_ACT" EntitySet="EMP_ACT" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EMPLOYEE__WORKDE__3D5E1FD2" Association="Self.FK__EMPLOYEE__WORKDE__3D5E1FD2">
+            <End Role="DEPARTMENT" EntitySet="DEPARTMENT" />
+            <End Role="EMPLOYEE" EntitySet="EMPLOYEE" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PROJECT__DEPTNO__3E52440B" Association="Self.FK__PROJECT__DEPTNO__3E52440B">
+            <End Role="DEPARTMENT" EntitySet="DEPARTMENT" />
+            <End Role="PROJECT" EntitySet="PROJECT" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DB2LocalSQLModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="DEPARTMENT">
+          <Key>
+            <PropertyRef Name="DEPTNO" />
+          </Key>
+          <Property Name="DEPTNO" Type="String" MaxLength="3" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="DEPTNAME" Type="String" MaxLength="29" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MGRNO" Type="String" MaxLength="6" FixedLength="true" Unicode="false" />
+          <Property Name="ADMRDEPT" Type="String" MaxLength="3" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="LOCATION" Type="String" MaxLength="16" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="EMPLOYEE" Relationship="Self.FK__EMPLOYEE__WORKDE__3D5E1FD2" FromRole="DEPARTMENT" ToRole="EMPLOYEE" />
+          <NavigationProperty Name="PROJECT" Relationship="Self.FK__PROJECT__DEPTNO__3E52440B" FromRole="DEPARTMENT" ToRole="PROJECT" />
+        </EntityType>
+        <EntityType Name="EMP_ACT">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="EMPNO" Type="String" MaxLength="6" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="PROJNO" Type="String" MaxLength="6" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="ACTNO" Type="Int16" Nullable="false" />
+          <Property Name="EMPTIME" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="EMSTDATE" Type="DateTime" Precision="0" />
+          <Property Name="EMENDATE" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="EMPLOYEE" Relationship="Self.FK__EMP_ACT__EMPNO__3F466844" FromRole="EMP_ACT" ToRole="EMPLOYEE" />
+          <NavigationProperty Name="PROJECT" Relationship="Self.FK__EMP_ACT__PROJNO__403A8C7D" FromRole="EMP_ACT" ToRole="PROJECT" />
+        </EntityType>
+        <EntityType Name="EMPLOYEE">
+          <Key>
+            <PropertyRef Name="EMPNO" />
+          </Key>
+          <Property Name="EMPNO" Type="String" MaxLength="6" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="FIRSTNME" Type="String" MaxLength="12" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MIDINIT" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="LASTNAME" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="WORKDEPT" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="PHONENO" Type="String" MaxLength="4" FixedLength="true" Unicode="false" />
+          <Property Name="HIREDATE" Type="DateTime" Precision="0" />
+          <Property Name="JOB" Type="String" MaxLength="8" FixedLength="true" Unicode="false" />
+          <Property Name="EDLEVEL" Type="Int16" Nullable="false" />
+          <Property Name="SEX" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="BIRTHDATE" Type="DateTime" Precision="0" />
+          <Property Name="SALARY" Type="Decimal" Precision="9" Scale="2" />
+          <Property Name="BONUS" Type="Decimal" Precision="9" Scale="2" />
+          <Property Name="COMM" Type="Decimal" Precision="9" Scale="2" />
+          <NavigationProperty Name="DEPARTMENT" Relationship="Self.FK__EMPLOYEE__WORKDE__3D5E1FD2" FromRole="EMPLOYEE" ToRole="DEPARTMENT" />
+          <NavigationProperty Name="EMP_ACT" Relationship="Self.FK__EMP_ACT__EMPNO__3F466844" FromRole="EMPLOYEE" ToRole="EMP_ACT" />
+        </EntityType>
+        <EntityType Name="PROJECT">
+          <Key>
+            <PropertyRef Name="PROJNO" />
+          </Key>
+          <Property Name="PROJNO" Type="String" MaxLength="6" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="PROJNAME" Type="String" MaxLength="24" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DEPTNO" Type="String" MaxLength="3" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="RESPEMP" Type="String" MaxLength="6" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="PRSTAFF" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="PRSTDATE" Type="DateTime" Precision="0" />
+          <Property Name="PRENDATE" Type="DateTime" Precision="0" />
+          <Property Name="MAJPROJ" Type="String" MaxLength="6" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="DEPARTMENT" Relationship="Self.FK__PROJECT__DEPTNO__3E52440B" FromRole="PROJECT" ToRole="DEPARTMENT" />
+          <NavigationProperty Name="EMP_ACT" Relationship="Self.FK__EMP_ACT__PROJNO__403A8C7D" FromRole="PROJECT" ToRole="EMP_ACT" />
+        </EntityType>
+        <Association Name="FK__EMPLOYEE__WORKDE__3D5E1FD2">
+          <End Role="DEPARTMENT" Type="Self.DEPARTMENT" Multiplicity="0..1" />
+          <End Role="EMPLOYEE" Type="Self.EMPLOYEE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DEPARTMENT">
+              <PropertyRef Name="DEPTNO" />
+            </Principal>
+            <Dependent Role="EMPLOYEE">
+              <PropertyRef Name="WORKDEPT" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PROJECT__DEPTNO__3E52440B">
+          <End Role="DEPARTMENT" Type="Self.DEPARTMENT" Multiplicity="1" />
+          <End Role="PROJECT" Type="Self.PROJECT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DEPARTMENT">
+              <PropertyRef Name="DEPTNO" />
+            </Principal>
+            <Dependent Role="PROJECT">
+              <PropertyRef Name="DEPTNO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__EMP_ACT__EMPNO__3F466844">
+          <End Role="EMPLOYEE" Type="Self.EMPLOYEE" Multiplicity="1" />
+          <End Role="EMP_ACT" Type="Self.EMP_ACT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EMPLOYEE">
+              <PropertyRef Name="EMPNO" />
+            </Principal>
+            <Dependent Role="EMP_ACT">
+              <PropertyRef Name="EMPNO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__EMP_ACT__PROJNO__403A8C7D">
+          <End Role="PROJECT" Type="Self.PROJECT" Multiplicity="1" />
+          <End Role="EMP_ACT" Type="Self.EMP_ACT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PROJECT">
+              <PropertyRef Name="PROJNO" />
+            </Principal>
+            <Dependent Role="EMP_ACT">
+              <PropertyRef Name="PROJNO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DB2LocalSQLEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="DEPARTMENT" EntityType="Self.DEPARTMENT" />
+          <EntitySet Name="EMP_ACT" EntityType="Self.EMP_ACT" />
+          <EntitySet Name="EMPLOYEE" EntityType="Self.EMPLOYEE" />
+          <EntitySet Name="PROJECT" EntityType="Self.PROJECT" />
+          <AssociationSet Name="FK__EMPLOYEE__WORKDE__3D5E1FD2" Association="Self.FK__EMPLOYEE__WORKDE__3D5E1FD2">
+            <End Role="DEPARTMENT" EntitySet="DEPARTMENT" />
+            <End Role="EMPLOYEE" EntitySet="EMPLOYEE" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PROJECT__DEPTNO__3E52440B" Association="Self.FK__PROJECT__DEPTNO__3E52440B">
+            <End Role="DEPARTMENT" EntitySet="DEPARTMENT" />
+            <End Role="PROJECT" EntitySet="PROJECT" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EMP_ACT__EMPNO__3F466844" Association="Self.FK__EMP_ACT__EMPNO__3F466844">
+            <End Role="EMPLOYEE" EntitySet="EMPLOYEE" />
+            <End Role="EMP_ACT" EntitySet="EMP_ACT" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EMP_ACT__PROJNO__403A8C7D" Association="Self.FK__EMP_ACT__PROJNO__403A8C7D">
+            <End Role="PROJECT" EntitySet="PROJECT" />
+            <End Role="EMP_ACT" EntitySet="EMP_ACT" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DB2LocalSQLModelStoreContainer" CdmEntityContainer="DB2LocalSQLEntities">
+          <EntitySetMapping Name="DEPARTMENT">
+            <EntityTypeMapping TypeName="DB2LocalSQLModel.DEPARTMENT">
+              <MappingFragment StoreEntitySet="DEPARTMENT">
+                <ScalarProperty Name="DEPTNO" ColumnName="DEPTNO" />
+                <ScalarProperty Name="DEPTNAME" ColumnName="DEPTNAME" />
+                <ScalarProperty Name="MGRNO" ColumnName="MGRNO" />
+                <ScalarProperty Name="ADMRDEPT" ColumnName="ADMRDEPT" />
+                <ScalarProperty Name="LOCATION" ColumnName="LOCATION" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EMP_ACT">
+            <EntityTypeMapping TypeName="DB2LocalSQLModel.EMP_ACT">
+              <MappingFragment StoreEntitySet="EMP_ACT">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="EMPNO" ColumnName="EMPNO" />
+                <ScalarProperty Name="PROJNO" ColumnName="PROJNO" />
+                <ScalarProperty Name="ACTNO" ColumnName="ACTNO" />
+                <ScalarProperty Name="EMPTIME" ColumnName="EMPTIME" />
+                <ScalarProperty Name="EMSTDATE" ColumnName="EMSTDATE" />
+                <ScalarProperty Name="EMENDATE" ColumnName="EMENDATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EMPLOYEE">
+            <EntityTypeMapping TypeName="DB2LocalSQLModel.EMPLOYEE">
+              <MappingFragment StoreEntitySet="EMPLOYEE">
+                <ScalarProperty Name="EMPNO" ColumnName="EMPNO" />
+                <ScalarProperty Name="FIRSTNME" ColumnName="FIRSTNME" />
+                <ScalarProperty Name="MIDINIT" ColumnName="MIDINIT" />
+                <ScalarProperty Name="LASTNAME" ColumnName="LASTNAME" />
+                <ScalarProperty Name="WORKDEPT" ColumnName="WORKDEPT" />
+                <ScalarProperty Name="PHONENO" ColumnName="PHONENO" />
+                <ScalarProperty Name="HIREDATE" ColumnName="HIREDATE" />
+                <ScalarProperty Name="JOB" ColumnName="JOB" />
+                <ScalarProperty Name="EDLEVEL" ColumnName="EDLEVEL" />
+                <ScalarProperty Name="SEX" ColumnName="SEX" />
+                <ScalarProperty Name="BIRTHDATE" ColumnName="BIRTHDATE" />
+                <ScalarProperty Name="SALARY" ColumnName="SALARY" />
+                <ScalarProperty Name="BONUS" ColumnName="BONUS" />
+                <ScalarProperty Name="COMM" ColumnName="COMM" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PROJECT">
+            <EntityTypeMapping TypeName="DB2LocalSQLModel.PROJECT">
+              <MappingFragment StoreEntitySet="PROJECT">
+                <ScalarProperty Name="PROJNO" ColumnName="PROJNO" />
+                <ScalarProperty Name="PROJNAME" ColumnName="PROJNAME" />
+                <ScalarProperty Name="DEPTNO" ColumnName="DEPTNO" />
+                <ScalarProperty Name="RESPEMP" ColumnName="RESPEMP" />
+                <ScalarProperty Name="PRSTAFF" ColumnName="PRSTAFF" />
+                <ScalarProperty Name="PRSTDATE" ColumnName="PRSTDATE" />
+                <ScalarProperty Name="PRENDATE" ColumnName="PRENDATE" />
+                <ScalarProperty Name="MAJPROJ" ColumnName="MAJPROJ" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
